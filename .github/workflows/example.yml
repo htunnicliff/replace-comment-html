@@ -1,0 +1,47 @@
+name: Testing
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Create empty table
+        uses: ./
+        with:
+          selector: "#preview-links"
+          mode: create-only
+          html: |
+            <table id="preview-links">
+              <thead>
+                <tr>
+                  <th>Environment</th>
+                  <th>Preview Link</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+
+      - name: Add row to table
+        uses: ./
+        with:
+          parent-selector: "#preview-links tbody"
+          selector: "#prod-link"
+          html: |
+            <tr id="prod-link">
+              <td>Production</td>
+              <td><a href="https://production.com">https://production.com</a></td>
+            </tr>

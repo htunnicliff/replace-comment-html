@@ -13,7 +13,7 @@ inputs:
     default: ${{ github.repository }}
   issue-number:
     description: The issue or pull request to operate on
-    default: ${{ github.event.issue.number }}
+    default: ${{ github.event.number || github.event.issue.number }}
   mode:
     description: "Which strategy to use for modifying comments: upsert (default), create-only"
     default: upsert
