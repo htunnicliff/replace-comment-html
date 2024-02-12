@@ -7,7 +7,16 @@ runs:
 inputs:
   token:
     description: GitHub token
-    required: true
+    default: ${{ github.token }}
+  repository:
+    description: The repository to operate on
+    default: ${{ github.repository }}
+  issue-number:
+    description: The issue or pull request to operate on
+    default: ${{ github.event.issue.number }}
+  mode:
+    description: "Which strategy to use for modifying comments: upsert (default), create-only"
+    default: upsert
   html:
     description: HTML to create or update
     required: true
@@ -16,11 +25,6 @@ inputs:
     required: true
   parent-selector:
     description: A CSS selector for identfying a parent to append the element to
-    required: false
-  mode:
-    description: "Which strategy to use for modifying comments: upsert (default), create-only"
-    required: false
-    default: upsert
 outputs:
   comment-id:
     description: The ID of the comment that was created or updated
