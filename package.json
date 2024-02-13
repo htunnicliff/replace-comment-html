@@ -1,6 +1,18 @@
 {
-  "license": "MIT",
+  "name": "replace-comment-html",
+  "description": "Replace HTML comments with new content",
+  "version": "1.0.0",
+  "author": "Hunter Tunnicliff",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/htunnicliff/replace-comment-html.git"
+  },
+  "bugs": {
+    "url": "https://github.com/htunnicliff/replace-comment-html/issues"
+  },
+  "homepage": "https://github.com/htunnicliff/replace-comment-html#readme",
+  "license": "MIT",
   "type": "module",
   "engines": {
     "node": ">=20"
@@ -14,14 +26,14 @@
   "exports": "./lib/index.js",
   "module": "./lib/index.js",
   "devDependencies": {
-    "@types/common-tags": "1.8.4",
-    "@types/node": "20.11.17",
-    "typescript": "5.3.3"
+    "@types/common-tags": "^1.8.4",
+    "@types/node": "^20.11.17",
+    "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@actions/core": "1.10.1",
-    "@actions/github": "6.0.0",
-    "cheerio": "1.0.0-rc.12",
-    "common-tags": "1.8.2"
+    "@actions/core": "^1.10.1",
+    "@actions/github": "^6.0.0",
+    "cheerio": "^1.0.0-rc.12",
+    "common-tags": "^1.8.2"
   }
 }
