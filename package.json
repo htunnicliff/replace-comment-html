@@ -1,7 +1,7 @@
 {
   "name": "replace-comment-html",
   "description": "Replace HTML comments with new content",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Hunter Tunnicliff",
   "private": true,
   "repository": {
