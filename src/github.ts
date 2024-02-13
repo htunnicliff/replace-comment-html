@@ -8,10 +8,7 @@ const octokit = github.getOctokit(core.getInput("token"));
 const [owner, repo] = core.getInput("repository").split("/");
 const issueNumber = +core.getInput("issue-number");
 
-/**
- * @param {string} selector
- */
-export async function findExistingComment(selector) {
+export async function findExistingComment(selector: string) {
   core.info(`Finding comment with selector "${selector}"...`);
 
   const params = {
@@ -54,11 +51,7 @@ export async function findExistingComment(selector) {
   return null;
 }
 
-/**
- * @param {number} commentId
- * @param {string} body
- */
-export async function updateComment(commentId, body) {
+export async function updateComment(commentId: number, body: string) {
   core.info(`Updating comment "${commentId}"...`);
 
   const params = {
@@ -75,10 +68,7 @@ export async function updateComment(commentId, body) {
   core.setOutput("comment-id", commentId);
 }
 
-/**
- * @param {string} body
- */
-export async function createComment(body) {
+export async function createComment(body: string) {
   core.info("Creating comment...");
 
   const params = {

@@ -7,14 +7,14 @@ const Mode = {
   CreateOnly: "create-only",
 };
 
-/**
- * @param {object} params
- * @param {string} params.mode
- * @param {string} params.html
- * @param {string} params.selector
- * @param {string?} params.parentSelector
- */
-export async function action({ mode, html, selector, parentSelector }) {
+export async function action(params: {
+  mode: string;
+  html: string;
+  selector: string;
+  parentSelector: string | null;
+}) {
+  const { mode, html, selector, parentSelector } = params;
+
   if (parentSelector) {
     return handleDependentElement({
       mode,
@@ -34,13 +34,14 @@ export async function action({ mode, html, selector, parentSelector }) {
 /**
  * Handle updating/creating an element that is not dependent on a parent
  * element.
- *
- * @param {object} params
- * @param {string} params.mode
- * @param {string} params.html
- * @param {string} params.selector
  */
-async function handleIndependentElement({ mode, html, selector }) {
+async function handleIndependentElement(params: {
+  mode: string;
+  html: string;
+  selector: string;
+}) {
+  const { mode, html, selector } = params;
+
   core.debug("Independent element");
 
   const comment = await findExistingComment(selector);
@@ -93,19 +94,14 @@ async function handleIndependentElement({ mode, html, selector }) {
 /**
  * Handle updating/creating an element that is dependent on the presence
  * of a parent element.
- *
- * @param {object} params
- * @param {string} params.mode
- * @param {string} params.html
- * @param {string} params.selector
- * @param {string} params.parentSelector
  */
-async function handleDependentElement({
-  mode,
-  html,
-  selector,
-  parentSelector,
+async function handleDependentElement(params: {
+  mode: string;
+  html: string;
+  selector: string;
+  parentSelector: string;
 }) {
+  const { mode, html, selector, parentSelector } = params;
   core.debug("Dependent element");
 
   const comment = await findExistingComment(parentSelector);

@@ -7,9 +7,11 @@
   },
   "main": "./dist/index.js",
   "scripts": {
-    "bundle": "ncc build lib/index.js -o dist --minify --license licenses.txt"
+    "bundle": "ncc build src/index.ts -o dist --minify --license licenses.txt",
+    "check-types": "tsc --noEmit"
   },
   "devDependencies": {
+    "@tsconfig/node20": "^20.1.2",
     "@types/common-tags": "^1.8.4",
     "@types/node": "^20.11.17",
     "@vercel/ncc": "^0.38.1",
