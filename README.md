@@ -95,16 +95,20 @@ If this workflow runs again and a row exists with the given CSS selector, it wil
 
 ## Inputs
 
-| Name              | Description                                                                                                                         | Default  |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| `token`           | `GITHUB_TOKEN` or a repo scoped [PAT](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token). |          |
-| `html`            | HTML to create or update                                                                                                            |          |
-| `selector`        | A CSS selector for identifying the element to update                                                                                |          |
-| `parent-selector` | A CSS selector for identfying a parent to append the element to                                                                     | `null`   |
-| `mode`            | The strategy to use for modifying comments (either `upsert` or `create-only`)                                                       | `upsert` |
+| Name              | Description                                                                   | Default                    |
+| ----------------- | ----------------------------------------------------------------------------- | -------------------------- |
+| `html`            | HTML to create or update                                                      |                            |
+| `selector`        | A CSS selector for identifying the element to update                          |                            |
+| `parent-selector` | A CSS selector for identfying a parent to append the element to               | `null`                     |
+| `token`           | `GITHUB_TOKEN` or a repo scoped [personal access token][PAT].                 | `${{ github.token }}`      |
+| `repository`      | The repository to update the comment in.                                      | `${{ github.repository }}` |
+| `issue-number`    | The issue or pull request number to update the comment in.                    | Current PR or issue number |
+| `mode`            | The strategy to use for modifying comments (either `upsert` or `create-only`) | `upsert`                   |
 
 ## Outputs
 
 | Name         | Description                                       |
 | ------------ | ------------------------------------------------- |
 | `comment-id` | The ID of the comment that was created or updated |
+
+[PAT]: https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
