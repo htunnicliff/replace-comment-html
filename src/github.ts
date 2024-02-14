@@ -1,15 +1,14 @@
-import * as core from "@actions/core";
-import * as github from "@actions/github";
+import { debug, getInput, info, setOutput, warning } from "@actions/core";
+import { getOctokit } from "@actions/github";
 import * as cheerio from "cheerio";
-import { inspect } from "util";
+import { inspect } from "node:util";
 
-const octokit = github.getOctokit(core.getInput("token"));
-
-const [owner, repo] = core.getInput("repository").split("/");
-const issueNumber = +core.getInput("issue-number");
+const octokit = getOctokit(getInput("token"));
+const [owner, repo] = getInput("repository").split("/");
+const issueNumber = +getInput("issue-number");
 
 export async function findExistingComment(selector: string) {
-  core.info(`Finding comment with selector "${selector}"...`);
+  info(`Finding comment with selector "${selector}"...`);
 
   const params = {
     owner,
@@ -17,7 +16,7 @@ export async function findExistingComment(selector: string) {
     issue_number: issueNumber,
   };
 
-  core.debug(`Request params:\n\n${inspect(params)}`);
+  debug(`Request params:\n\n${inspect(params)}`);
 
   const comments = await octokit.paginate(
     octokit.rest.issues.listComments,
@@ -39,7 +38,7 @@ export async function findExistingComment(selector: string) {
   );
 
   if (comments.length > 1) {
-    core.warning(
+    warning(
       `Found ${comments.length} comments with the same element selector: ${selector}. Using first comment.`
     );
   }
@@ -52,7 +51,7 @@ export async function findExistingComment(selector: string) {
 }
 
 export async function updateComment(commentId: number, body: string) {
-  core.info(`Updating comment "${commentId}"...`);
+  info(`Updating comment "${commentId}"...`);
 
   const params = {
     body,
@@ -61,15 +60,15 @@ export async function updateComment(commentId: number, body: string) {
     repo,
   };
 
-  core.debug(`Request params:\n\n${inspect(params)}`);
+  debug(`Request params:\n\n${inspect(params)}`);
 
   await octokit.rest.issues.updateComment(params);
 
-  core.setOutput("comment-id", commentId);
+  setOutput("comment-id", commentId);
 }
 
 export async function createComment(body: string) {
-  core.info("Creating comment...");
+  info("Creating comment...");
 
   const params = {
     body,
@@ -78,9 +77,9 @@ export async function createComment(body: string) {
     issue_number: issueNumber,
   };
 
-  core.debug(`Request params:\n\n${inspect(params)}`);
+  debug(`Request params:\n\n${inspect(params)}`);
 
   const newComment = await octokit.rest.issues.createComment(params);
 
-  core.setOutput("comment-id", newComment.data.id);
+  setOutput("comment-id", newComment.data.id);
 }
