@@ -15,7 +15,7 @@ concurrency:
   group: release-${{ github.ref }}
 
 env:
-  NODE_VERSION: 16.x
+  NODE_VERSION: 20.x
 
 jobs:
   publish:
