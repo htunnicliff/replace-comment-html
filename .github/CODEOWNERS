@@ -1,0 +1,6 @@
+# https://github.com/orgs/reside-eng/teams/core/members
+* @reside-eng/platform-tools
+
+# Skip assigning dep updates (handled by Renovate)
+package.json
+yarn.lock

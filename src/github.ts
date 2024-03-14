@@ -1,12 +1,17 @@
-import { debug, getInput, info, setOutput, warning } from "@actions/core";
-import { getOctokit } from "@actions/github";
-import * as cheerio from "cheerio";
-import { inspect } from "node:util";
+import { debug, getInput, info, setOutput, warning } from '@actions/core';
+import { getOctokit } from '@actions/github';
+import * as cheerio from 'cheerio';
+import { inspect } from 'node:util';
 
-const octokit = getOctokit(getInput("token"));
-const [owner, repo] = getInput("repository").split("/");
-const issueNumber = +getInput("issue-number");
+const octokit = getOctokit(getInput('token'));
+const [owner, repo] = getInput('repository').split('/');
+const issueNumber = +getInput('issue-number');
 
+/**
+ *
+ * @param selector - Selector
+ * @returns Promise which resolves with null
+ */
 export async function findExistingComment(selector: string) {
   info(`Finding comment with selector "${selector}"...`);
 
@@ -22,8 +27,8 @@ export async function findExistingComment(selector: string) {
     octokit.rest.issues.listComments,
     params,
     ({ data }, done) => {
-      const comment = data.find((comment) => {
-        const $ = cheerio.load(comment.body ?? "", null, false);
+      const comment = data.find((commentContent) => {
+        const $ = cheerio.load(commentContent.body ?? '', null, false);
 
         return $(selector).length > 0;
       });
@@ -50,6 +55,11 @@ export async function findExistingComment(selector: string) {
   return null;
 }
 
+/**
+ *
+ * @param commentId - Id of comment
+ * @param body - Body of comment
+ */
 export async function updateComment(commentId: number, body: string) {
   info(`Updating comment "${commentId}"...`);
 
@@ -64,11 +74,15 @@ export async function updateComment(commentId: number, body: string) {
 
   await octokit.rest.issues.updateComment(params);
 
-  setOutput("comment-id", commentId);
+  setOutput('comment-id', commentId);
 }
 
+/**
+ *
+ * @param body - Body of comment
+ */
 export async function createComment(body: string) {
-  info("Creating comment...");
+  info('Creating comment...');
 
   const params = {
     body,
@@ -81,5 +95,5 @@ export async function createComment(body: string) {
 
   const newComment = await octokit.rest.issues.createComment(params);
 
-  setOutput("comment-id", newComment.data.id);
+  setOutput('comment-id', newComment.data.id);
 }

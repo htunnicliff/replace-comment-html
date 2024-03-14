@@ -1,4 +1,4 @@
-# Replace Comment HTML
+# Replace Comment HTML Action
 
 This action upserts HTML in GitHub issue or pull request comments using CSS selectors.
 
@@ -23,7 +23,7 @@ jobs:
       # ... steps to deploy preview envionment ...
 
       # Create a comment with an empty table
-      - uses: htunnicliff/replace-comment-html@v1
+      - uses: reside-eng/replace-comment-html-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           selector: "#preview-links"
@@ -112,3 +112,7 @@ If this workflow runs again and a row exists with the given CSS selector, it wil
 | `comment-id` | The ID of the comment that was created or updated |
 
 [PAT]: https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
+
+## Credits
+
+This repo was forked from [htunnicliff/replace-comment-html](https://github.com/htunnicliff/replace-comment-html) made by [@htunnicliff](https://github.com/htunnicliff)

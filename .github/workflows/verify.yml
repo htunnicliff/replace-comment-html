@@ -1,0 +1,57 @@
+name: Verify
+
+on: [pull_request]
+
+env:
+  NODE_VERSION: 16.x
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3.6.0
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3.8.1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Verify formatting
+        run: yarn format:check
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Test
+        run: yarn test --coverage --silent
+
+      - name: Upload coverage to Coveralls
+        uses: coverallsapp/github-action@v2.2.1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build
+        run: yarn build
+
+  notification:
+    if: always()
+    name: notification
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3.6.0
+
+      - uses: technote-space/workflow-conclusion-action@v3.0.3
+
+      - uses: reside-eng/workflow-status-notification-action@v1.2.4
+        with:
+          current-status: ${{ env.WORKFLOW_CONCLUSION }}
+          slack-webhook: ${{ secrets.SLACK_WEBHOOK_PLATFORM_PROD }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
