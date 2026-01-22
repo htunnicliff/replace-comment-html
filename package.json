@@ -13,7 +13,7 @@
   "devDependencies": {
     "@tsconfig/node20": "20.1.8",
     "@types/common-tags": "1.8.4",
-    "@types/node": "20.11.17",
+    "@types/node": "20.19.30",
     "@vercel/ncc": "0.38.4",
     "typescript": "5.3.3"
   },
